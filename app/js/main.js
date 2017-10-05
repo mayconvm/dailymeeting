@@ -2,7 +2,12 @@
 
   let recordRTC = null;
   // const formData = new FormData();
-  const formData = {};
+  let formData = {
+    name: 'MAYCON', //Cookie.get('name'),
+    email: 'EMAIL@EMAIL.COM', //Cookie.get('email'),
+    descricao: null,
+    audio: null
+  };
 
   let config = {
     apiKey: "",
@@ -53,11 +58,6 @@
 
     if (voiceRecorder.classList.contains("btn-danger")) {
       recordRTC.stopRecording(function(audioURL) {
-        // formData.append('edition_audio[]', recordRTC.getBlob())
-        // console.log(URL.createObjectURL(recordRTC.getBlob()));
-        
-        formData.name = 'MAYCON'; //Cookie.get('name');
-        formData.email = 'EMAIL@EMAIL.COM'; //Cookie.get('email');
         formData.audio = recordRTC.getBlob();
       });
     } else {
@@ -71,17 +71,30 @@
   function sendDataForm() {
     console.log("formData", formData);
 
-    let storage = firebase.storage();
-    let ref = storage.ref();
+    // button
+    sendForm.text = "Aguarde";
+    sendForm.disabled = true;
 
-    ref.child(name(5) + '.webm')
-      .put(formData.audio)
-      .then(writeData)
-      .catch((error) => { throw error; });
+    // upload
+    if (formData.audio) {
+      let storage = firebase.storage();
+      let ref = storage.ref();
+
+      ref.child(name(5) + '.webm')
+        .put(formData.audio)
+        .then(writeData)
+        .catch((error) => { throw error; });
+    } else {
+      writeData({
+        downloadURL: null
+      });
+    }
 
 
     function writeData(data) {
+      // update data
       formData.audio = data.downloadURL;
+      formData.descricao = document.getElementById("descricao").value;
 
       // Initialize Cloud Firestore through Firebase
       var db = firebase.firestore();
@@ -90,9 +103,11 @@
       .add(formData)
       .then(function(docRef) {
           console.log("Document written with ID: ", docRef.id);
+          reset();
       })
       .catch(function(error) {
           console.error("Error adding document: ", error);
+          reset();
       });
     }
 
@@ -114,6 +129,10 @@
     }
 
     return result;
+  }
+
+  function reset() {
+    formData = {};
   }
 
 })(window)
