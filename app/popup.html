@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 
+    'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'; media-src * blob:" />
     <meta name="author" content="MayconVM">
     <link rel="icon" href="favicon.ico">
     <title>Starter Template for Bootstrap</title>
@@ -16,12 +18,27 @@
 
       <div class="row">
         <div class="col">
+          
+          <div class="alert alert-success d-none" id="alert-success">
+            Gravado com sucesso!
+          </div>
+
           <form action="">
-            
-            <div class="form-group">
-              <br>
-              <button type="button" id="voiceRecorder" class="btn btn-danger btn-lg">Gravar o áudio</button>
+            <div class="row">
+              <div class="col-2">
+                <div class="form-group">
+                  <br>
+                  <button type="button" id="voiceRecorder" class="btn btn-danger btn-lg">Gravar o áudio</button>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <br>
+                  <audio id="hearRecord" type="audio/webm" controls src=""></audio>
+                </div>
+              </div>
             </div>
+
 
             <div class="form-group">
               <label for="exampleInputEmail1">Sua descrição</label>
@@ -50,6 +67,8 @@ Estou tendo algum problema?"></textarea>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-firestore.js"></script>
 
+    <script src="js/LocalStorage.js"></script>
+    <script src="js/src/User.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
