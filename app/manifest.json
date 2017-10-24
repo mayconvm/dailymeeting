@@ -1,0 +1,53 @@
+{
+  "app": {
+    "background": {
+      "scripts": [
+        "js/utils.js",
+        "js/LocalStorage.js",
+        "js/js.cookie.js",
+        "js/src/User.js",
+        "background.js"
+    ]
+    }
+  },
+  "manifest_version": 2,
+  "name": "Dayling Meeting",
+  "version": "1.0",
+  "description": "App para realizar a dayling meeting",
+  "icons":  {
+    "16": "img/icon16.jpg",
+    "48": "img/icon48.jpg",
+    "128": "img/icon128.jpg"
+  },
+  "externally_connectable": {
+    "matches": [
+      "*://daylingmeet.firebaseio.com/*",
+      "*://daylingmeet.appspot.com/*"
+    ]
+  },
+  "offline_enabled": true,
+  // "content_scripts": [{
+  //   "js": ["background.js"],
+  //   "matches": ["http://*/*", "https://*/*"]
+  // }],
+  // "browser_action": {
+  //   "default_icon": "img/icon16.jpg",
+  //   "default_popup": "popup.html"
+  // },
+  // "optional_permissions": [
+  //   "tabs",
+  //   "cookies",
+  //   "notifications",
+  //   "debugger",
+  //   "https://www.gstatic.com/firebasejs/*"
+  // ],
+  "permissions": [
+    "https://www.gstatic.com/firebasejs/*",
+    "storage",
+    "notifications",
+    "audioCapture",
+    "alarms",
+    "webview"
+  ]
+  // "content_security_policy": "script-src 'self' https://www.gstatic.com https://*.firebase.com https://*.firebaseio.com; object-src 'self'"
+}
