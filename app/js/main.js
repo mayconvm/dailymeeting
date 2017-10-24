@@ -1,25 +1,30 @@
 (function(_global) {
 
+  const user = new User();
+
   let recordRTC = null;
   // const formData = new FormData();
   let formData = {
-    name: 'MAYCON', //Cookie.get('name'),
-    email: 'EMAIL@EMAIL.COM', //Cookie.get('email'),
+    name: user.getName(),
+    email: user.getEmail(),
     descricao: null,
     audio: null
   };
 
   let config = {
-    apiKey: "",
+    apiKey: "AIzaSyDC34SjHixyMbukGTQMrfxH_z9TVy748l0",
     authDomain: "daylingmeet.firebaseapp.com",
     databaseURL: "https://daylingmeet.firebaseio.com",
     projectId: "daylingmeet",
     storageBucket: "daylingmeet.appspot.com",
-    messagingSenderId: "",
+    messagingSenderId: "687279960672",
   };
   firebase.initializeApp(config);
 
+  let elementForm = document.querySelector("form");
+  let elementAudio = document.querySelector("audio");
   let voiceRecorder = document.getElementById("voiceRecorder");
+  let alertSuccess = document.getElementById("alert-success");
   // register click
   voiceRecorder.addEventListener('click', toogleClick);
   startRecord();
@@ -28,9 +33,13 @@
    * Iniciando a gravação do áudio
    */
   function startRecord() {
+    // let session = {
+    //   audio: true,
+    //   video: false
+    // }; 
+
     let session = {
-      audio: true,
-      video: false
+      audio: true
     };
 
     let options = {
@@ -59,6 +68,9 @@
     if (voiceRecorder.classList.contains("btn-danger")) {
       recordRTC.stopRecording(function(audioURL) {
         formData.audio = recordRTC.getBlob();
+
+        // set src
+        elementAudio.src = URL.createObjectURL(formData.audio);
       });
     } else {
       recordRTC.startRecording();
@@ -69,10 +81,9 @@
   sendForm.addEventListener('click', sendDataForm);
 
   function sendDataForm() {
-    console.log("formData", formData);
-
     // button
-    sendForm.text = "Aguarde";
+    sendForm.classList.replace('btn-success', 'btn-warning');
+    sendForm.innerText = "Aguarde..."
     sendForm.disabled = true;
 
     // upload
@@ -95,6 +106,8 @@
       // update data
       formData.audio = data.downloadURL;
       formData.descricao = document.getElementById("descricao").value;
+
+      console.log("formData", formData);
 
       // Initialize Cloud Firestore through Firebase
       var db = firebase.firestore();
@@ -133,6 +146,8 @@
 
   function reset() {
     formData = {};
+    elementForm.innerHTML = '';
+    alertSuccess.classList.remove("d-none");
   }
 
 })(window)
