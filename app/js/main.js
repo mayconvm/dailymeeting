@@ -1,15 +1,7 @@
 (function(_global) {
 
   const user = new User();
-
   let recordRTC = null;
-  // const formData = new FormData();
-  let formData = {
-    name: user.getName(),
-    email: user.getEmail(),
-    descricao: null,
-    audio: null
-  };
 
   let config = {
     apiKey: "AIzaSyDC34SjHixyMbukGTQMrfxH_z9TVy748l0",
@@ -64,6 +56,13 @@
    */
   function toogleClick() {
     voiceRecorder.classList.toggle("btn-danger");
+
+      let formData = {
+        name: user.getName(),
+        email: user.getEmail(),
+        descricao: null,
+        audio: null
+      };
 
     if (voiceRecorder.classList.contains("btn-danger")) {
       recordRTC.stopRecording(function(audioURL) {
